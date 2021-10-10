@@ -4,10 +4,24 @@ import java.awt.event.ActionListener;
 public class ActionHandler implements ActionListener {
 
     GameField GameFieldPanel = new GameField();
+    StartMenu StartMenuPanel = new StartMenu();
 
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == gui.HitboxRadioButton) {
+            if (GameField.HitboxVisible) {
+                GameField.HitboxVisible = false;
+                System.out.println("OFF");
+            }
+            else {
+                GameField.HitboxVisible = true;
+                System.out.println("ON");
+            }
+        }
+
         if (e.getSource() == gui.StartGameMenuButton) {
-            gui.frame.remove(gui.StartMenuPanel);
+            gui.frame.remove(StartMenuPanel);
+            StartMenuPanel.setVisible(false);
+            gui.frame.getContentPane().removeAll();
 			gui.frame.add(gui.GameSettingsPanel);
             gui.GameSettingsPanel.setVisible(true);
 			gui.frame.repaint();
@@ -31,6 +45,8 @@ public class ActionHandler implements ActionListener {
         }
 
         if (e.getSource() == gui.MainMenuButton) {
+            StartMenuPanel.add(gui.ExitButton);
+            StartMenuPanel.add(gui.StartGameMenuButton);
             GameField.CountFalling = 0;
             GameField.CurrentBarrier = 0;
             GameField.CountDrawBarrier = 0;
@@ -39,8 +55,8 @@ public class ActionHandler implements ActionListener {
 
             gui.frame.remove(GameFieldPanel);
             gui.frame.remove(gui.GameSettingsPanel);
-			gui.frame.add(gui.StartMenuPanel);
-            gui.StartMenuPanel.setVisible(true);
+			gui.frame.add(StartMenuPanel);
+            StartMenuPanel.setVisible(true);
 			gui.frame.repaint();
         }
     }

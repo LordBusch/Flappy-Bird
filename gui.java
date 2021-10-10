@@ -3,13 +3,13 @@ import java.awt.*;
 
 public class gui {
     public static JFrame frame;
-    public static JPanel StartMenuPanel;
     public static JPanel GameSettingsPanel;
     public static JButton StartGameMenuButton;
     public static JButton ExitButton;
     public static JButton StartGameButton;
     public static JButton MainMenuButton;
     public static JLabel GameOverLabel;
+    public static JRadioButton HitboxRadioButton; 
 
     public static final int PANEL_SIZE_X = 1920;
     public static final int PANEL_SIZE_Y = 1080;
@@ -19,6 +19,8 @@ public class gui {
     Font fontsizelittle = new Font("Verdana", Font.PLAIN, PANEL_SIZE_Y / 50);
 
     public gui() {
+        StartMenu StartMenuPanel = new StartMenu();
+
         ActionHandler handler = new ActionHandler();
         KeyHandler khandler = new KeyHandler();
 
@@ -36,11 +38,6 @@ public class gui {
         frame.addKeyListener(khandler);
 
         //Start Menu Panel
-
-        StartMenuPanel = new JPanel();
-        StartMenuPanel.setSize(PANEL_SIZE_X, PANEL_SIZE_Y);
-        StartMenuPanel.setBackground(Color.green);
-        StartMenuPanel.setLayout(null);
 
         StartGameMenuButton = new JButton("Start");
         StartGameMenuButton.setBounds(PANEL_SIZE_X / 2 - 150, PANEL_SIZE_Y / 2 - PANEL_SIZE_Y / 4, 300, 150);
@@ -73,6 +70,13 @@ public class gui {
         StartGameButton.setFont(fontHeading);
         StartGameButton.addActionListener(handler);
 
+        HitboxRadioButton = new JRadioButton("Hitbox On/Off");
+        HitboxRadioButton.setBounds(PANEL_SIZE_X / 4, PANEL_SIZE_Y / 4, 400, 50);
+        HitboxRadioButton.setForeground(Color.black);
+        HitboxRadioButton.setBackground(Color.green);
+        HitboxRadioButton.setFont(fontSubheadings);
+        HitboxRadioButton.addActionListener(handler);
+
         //GameField Panel
 
         MainMenuButton = new JButton("Main Menu");
@@ -92,6 +96,7 @@ public class gui {
         StartMenuPanel.add(ExitButton);
         GameSettingsPanel.add(StartGameButton);
         GameSettingsPanel.add(MainMenuButton);
+        GameSettingsPanel.add(HitboxRadioButton);
 
         frame.add(StartMenuPanel);
         frame.repaint();

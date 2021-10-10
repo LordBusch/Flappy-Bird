@@ -18,6 +18,8 @@ public class GameField extends JPanel {
     public static int[] heightBarrierdown = new int [1000000];
     public static int CountDrawBarrier;
     public static int CurrentBarrier;
+    public static boolean HitboxVisible;
+
     GameField() {
         this.setSize(gui.PANEL_SIZE_X, gui.PANEL_SIZE_Y);
         this.setBackground(Color.white);
@@ -94,6 +96,10 @@ public class GameField extends JPanel {
             }
             //-draw bird-
             g2d.drawImage(ShipBufferedImage, at, null);
+            if (HitboxVisible) {
+                g.setColor(Color.red);
+                g.drawRect(xposBird - 10, yposBird + 20, 70, 80);
+            }
 
             gui.frame.repaint();
         }
@@ -105,12 +111,12 @@ public class GameField extends JPanel {
 
     public void CheckCollision() {
         for (int i = 0; i < CurrentBarrier; i++) {
-            if (yposBird < heightBarrier[i] && xposBird + 50 > xposBarrier[i] && xposBird + 50 < xposBarrier[i] + widthBarrier[i]) {
+            if (yposBird + 20 < heightBarrier[i] && xposBird + 70 > xposBarrier[i] && xposBird + 70 < xposBarrier[i] + widthBarrier[i]) {
                 GameOver();
                 System.out.println("COLLISION");
             }
 
-            if (yposBird + 30 > yposBarrierdown[i] && xposBird + 50 > xposBarrierdown[i] && xposBird + 50 < xposBarrierdown[i] + widthBarrierdown[i]) {
+            if (yposBird + 100 > yposBarrierdown[i] && xposBird + 70 > xposBarrierdown[i] && xposBird + 70 < xposBarrierdown[i] + widthBarrierdown[i]) {
                 GameOver();
                 System.out.println("COLLISION");
             }
