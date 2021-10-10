@@ -5,6 +5,7 @@ import java.awt.geom.AffineTransform;
 
 public class GameField extends JPanel {
     public static int yposBird;
+    public static int xposBird = 500;
     public static int CountFalling;
     public static int BirdAngle;
     public static int[] xposBarrier = new int [1000000];
@@ -26,8 +27,8 @@ public class GameField extends JPanel {
     public void paintComponent(Graphics g) {
         if (Main.GameActive) {
             DrawBarriers(g);
-
             DrawBird(g);
+            CheckCollision();
         }
     }
 
@@ -70,7 +71,7 @@ public class GameField extends JPanel {
             Image resizedSpaceShipImgLeft = SpaceShipImgLeftImage.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
             ImageIcon scaledSpaceShipIconLeft = new ImageIcon(resizedSpaceShipImgLeft);
             //Load AffineTransform to rotate the image
-            AffineTransform at = AffineTransform.getTranslateInstance(500, yposBird);
+            AffineTransform at = AffineTransform.getTranslateInstance(xposBird, yposBird);
             Image ShipBufferedImage = scaledSpaceShipIconLeft.getImage();
             Graphics2D g2d = (Graphics2D) g;
 
@@ -98,10 +99,28 @@ public class GameField extends JPanel {
         }
         else {
             //Game Over
-            Main.GameActive = false;
-            this.add(gui.GameOverLabel);
-            gui.GameOverLabel.setVisible(true);
+            GameOver();
         }
+    }
+
+    public void CheckCollision() {
+        for (int i = 0; i < CurrentBarrier; i++) {
+            if (yposBird < heightBarrier[i] && xposBird + 50 > xposBarrier[i] && xposBird + 50 < xposBarrier[i] + widthBarrier[i]) {
+                GameOver();
+                System.out.println("COLLISION");
+            }
+
+            if (yposBird + 30 > yposBarrierdown[i] && xposBird + 50 > xposBarrierdown[i] && xposBird + 50 < xposBarrierdown[i] + widthBarrierdown[i]) {
+                GameOver();
+                System.out.println("COLLISION");
+            }
+        }
+    }
+
+    public void GameOver() {
+        Main.GameActive = false;
+        this.add(gui.GameOverLabel);
+        gui.GameOverLabel.setVisible(true);
     }
 
 }
