@@ -9,6 +9,7 @@ public class gui {
     public static JButton ExitButton;
     public static JButton StartGameButton;
     public static JButton MainMenuButton;
+    public static JLabel GameOverLabel;
 
     public static final int PANEL_SIZE_X = 1920;
     public static final int PANEL_SIZE_Y = 1080;
@@ -19,6 +20,7 @@ public class gui {
 
     public gui() {
         ActionHandler handler = new ActionHandler();
+        KeyHandler khandler = new KeyHandler();
 
         frame = new JFrame("Flappy Bird");
         frame.setSize(PANEL_SIZE_X, PANEL_SIZE_Y);
@@ -31,6 +33,7 @@ public class gui {
 		frame.setIconImage(image.getImage());
         frame.setVisible(true);
         frame.setFocusable(true);
+        frame.addKeyListener(khandler);
 
         //Start Menu Panel
 
@@ -78,6 +81,12 @@ public class gui {
         MainMenuButton.setForeground(Color.black);
         MainMenuButton.setFont(fontSubheadings);
         MainMenuButton.addActionListener(handler);
+
+        GameOverLabel = new JLabel("Game Over!");
+        GameOverLabel.setBackground(Color.green);
+        GameOverLabel.setForeground(Color.black);
+        GameOverLabel.setBounds(PANEL_SIZE_X / 2 - 300, PANEL_SIZE_Y / 2 - 100, 600, 100);
+        GameOverLabel.setFont(fontHeading);
 
         StartMenuPanel.add(StartGameMenuButton);
         StartMenuPanel.add(ExitButton);
