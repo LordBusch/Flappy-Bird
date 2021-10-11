@@ -14,9 +14,13 @@ public class KeyHandler implements KeyListener {
             switch(keyCode) {
                 
                 case KeyEvent.VK_SPACE:
+                GameField.Jumped = false;
                 //GameField.BirdAngle = -20;
                 GameField.CountFalling = 0;
-                GameField.yposBird = GameField.yposBird - 150;
+                GameField.yposFalling = 0;
+                GameField.BirdAngle = 0;
+                GameField.CountBirdUp = 100;
+                //GameField.yposBird = GameField.yposBird - 150;
                 new GameField();
                 gui.frame.repaint();
                 break;
