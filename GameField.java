@@ -13,30 +13,48 @@ public class GameField extends JPanel {
     public static int yposBirdUp;
     public static int BirdAngle;
     public static int radiusBird = 50;
-    public static int[] xposBarrier = new int [1000000];
-    public static int[] yposBarrier = new int [1000000];
-    public static int[] widthBarrier = new int [1000000];
-    public static int[] heightBarrier = new int [1000000];
-    public static int[] xposBarrierdown = new int [1000000];
-    public static int[] yposBarrierdown = new int [1000000];
-    public static int[] widthBarrierdown = new int [1000000];
-    public static int[] heightBarrierdown = new int [1000000];
+    private int[] xposBarrier = new int [1000000];
+    private int[] yposBarrier = new int [1000000];
+    private int[] widthBarrier = new int [1000000];
+    private int[] heightBarrier = new int [1000000];
+    private int[] xposBarrierdown = new int [1000000];
+    private int[] yposBarrierdown = new int [1000000];
+    private int[] widthBarrierdown = new int [1000000];
+    private int[] heightBarrierdown = new int [1000000];
     public static int CountDrawBarrier;
     public static int CurrentBarrier;
     public static boolean HitboxVisible;
     public static boolean Jumped;
+
+    private int[] xposBackground = new int[1000000];
+    private int CountBackgrounds = 1;
 
     GameField() {
         this.setSize(gui.PANEL_SIZE_X, gui.PANEL_SIZE_Y);
         this.setBackground(Color.white);
         this.setLayout(null);
     }
+
+    //Create method for delay
+	public static void wait(int ms)
+	{
+		try
+		{
+			Thread.sleep(ms);
+		}
+		catch(InterruptedException ex)
+		{
+			Thread.currentThread().interrupt();
+		}
+	}
     
     public void paintComponent(Graphics g) {
         if (Main.GameActive) {
+            BackgroundHills(g);
             DrawBarriers(g);
             DrawBird(g);
             CheckCollision();
+            wait(5);
         }
     }
 
@@ -69,18 +87,20 @@ public class GameField extends JPanel {
         CountDrawBarrier++;
     }
 
+    ImageIcon FlappyBirdIcon = new ImageIcon("Flappy Bird Icon.png");
+    Image FlappyBirdImage = FlappyBirdIcon.getImage();
+    Image FlappyBirdImg = FlappyBirdImage.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+    ImageIcon scaledFlappyBirdIcon = new ImageIcon(FlappyBirdImg);
+
 
     public void DrawBird(Graphics g) {
         if (yposBird > 0 && yposBird < gui.PANEL_SIZE_Y) {
             //-Calculate bird-
             //Load Flappy Bird Image
-            ImageIcon SpaceShipIconLeft = new ImageIcon("images/Flappy Bird Icon.png");
-            Image SpaceShipImgLeftImage = SpaceShipIconLeft.getImage();
-            Image resizedSpaceShipImgLeft = SpaceShipImgLeftImage.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-            ImageIcon scaledSpaceShipIconLeft = new ImageIcon(resizedSpaceShipImgLeft);
+
             //Load AffineTransform to rotate the image
             AffineTransform at = AffineTransform.getTranslateInstance(xposBird, yposBird);
-            Image ShipBufferedImage = scaledSpaceShipIconLeft.getImage();
+            Image ShipBufferedImage = scaledFlappyBirdIcon.getImage();
             Graphics2D g2d = (Graphics2D) g;
 
             if (CountBirdUp > 0) {
@@ -93,7 +113,7 @@ public class GameField extends JPanel {
                 }
                 at.rotate(Math.toRadians(BirdAngle));
                 Jumped = true;
-                gui.frame.repaint();
+                //gui.frame.repaint();
             }
             else {
                 
@@ -142,7 +162,8 @@ public class GameField extends JPanel {
 
             
 
-            gui.frame.repaint();
+            //gui.frame.repaint();
+            //wait(10);
         }
         else {
             //Game Over
@@ -200,6 +221,27 @@ public class GameField extends JPanel {
                 GameOver();
             }
             
+        }
+        gui.frame.repaint();
+    }
+
+        ImageIcon BackgroundIcon = new ImageIcon("Flappy Bird Background.png");
+        Image BackgroundImage = BackgroundIcon.getImage();
+        Image BackgroundImage2 = BackgroundImage.getScaledInstance(gui.PANEL_SIZE_X, gui.PANEL_SIZE_Y, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon scaledSpaceShipIconLeft = new ImageIcon(BackgroundImage2);
+
+    public void BackgroundHills(Graphics g) {
+        
+        for (int i = 0; i < CountBackgrounds; i++) {
+            scaledSpaceShipIconLeft.paintIcon(null, g, xposBackground[i], 0);
+            xposBackground[i] --;
+
+            System.out.println(xposBackground[i] + gui.PANEL_SIZE_X + "xpos");
+            if (xposBackground[i] + gui.PANEL_SIZE_X + 1 == gui.PANEL_SIZE_X) {
+                System.out.println("DETECTED");
+                CountBackgrounds++;
+                xposBackground[CountBackgrounds] = gui.PANEL_SIZE_X;
+            }
         }
     }
 

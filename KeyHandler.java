@@ -19,9 +19,7 @@ public class KeyHandler implements KeyListener {
                 GameField.CountFalling = 0;
                 GameField.yposFalling = 0;
                 GameField.BirdAngle = 0;
-                GameField.CountBirdUp = 100;
-                //GameField.yposBird = GameField.yposBird - 150;
-                new GameField();
+                GameField.CountBirdUp = 80;
                 gui.frame.repaint();
                 break;
             }

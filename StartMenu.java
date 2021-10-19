@@ -35,7 +35,7 @@ public class StartMenu extends JPanel{
         }
         
         //Load Flappy Bird Image
-        ImageIcon BirdImageIcon = new ImageIcon("images/Flappy Bird Icon.png");
+        ImageIcon BirdImageIcon = new ImageIcon("Flappy Bird Icon.png");
         Image BirdImage = BirdImageIcon.getImage();
         Image resizedBirdimage = BirdImage.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
         ImageIcon scaledBirdImageIcon = new ImageIcon(resizedBirdimage);
