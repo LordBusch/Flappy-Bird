@@ -25,6 +25,9 @@ public class GameField extends JPanel {
     public static int CurrentBarrier;
     public static boolean HitboxVisible;
     public static boolean Jumped;
+    private boolean StartHighScoreCount = false;
+    public static int ActiveHighScoreCount;
+    
 
     private int[] xposBackground = new int[1000000];
     private int CountBackgrounds = 1;
@@ -83,6 +86,16 @@ public class GameField extends JPanel {
         if (CountDrawBarrier == 0) {
             CurrentBarrier++;
             System.out.println(CurrentBarrier + "current barrier");
+            if (xposBird < xposBarrier[4]) {
+                StartHighScoreCount = true;
+            }
+            else {
+                gui.HighScoreLabel.setText("0");
+            }
+            if (StartHighScoreCount) {
+                ActiveHighScoreCount++;
+                gui.HighScoreLabel.setText(Integer.toString(ActiveHighScoreCount));
+            }
         }
         CountDrawBarrier++;
     }
@@ -134,23 +147,7 @@ public class GameField extends JPanel {
                     BirdAngle = 60;
                 }
                 at.rotate(Math.toRadians(BirdAngle));
-                /*
-                if (CountFalling <= 75) {
-                    BirdAngle = 15;
-                    at.rotate(Math.toRadians(BirdAngle));
-                    yposBird++;
-                }
-                if (CountFalling > 75 && CountFalling <= 200) {
-                    BirdAngle = 35;
-                    at.rotate(Math.toRadians(BirdAngle));
-                    yposBird = yposBird + 2;
-                }
-                if (CountFalling > 200) {
-                    BirdAngle = 60;
-                    at.rotate(Math.toRadians(BirdAngle));
-                    yposBird = yposBird + 4;
-                }
-                */
+
             }
 
             //-draw bird-
@@ -173,17 +170,6 @@ public class GameField extends JPanel {
 
     public void CheckCollision() {
         for (int i = 0; i < CurrentBarrier; i++) {
-            /*
-            if (yposBird + 20 < heightBarrier[i] && xposBird + 70 > xposBarrier[i] && xposBird + 70 < xposBarrier[i] + widthBarrier[i]) {
-                GameOver();
-                System.out.println("COLLISION");
-            }
-
-            if (yposBird + 100 > yposBarrierdown[i] && xposBird + 70 > xposBarrierdown[i] && xposBird + 70 < xposBarrierdown[i] + widthBarrierdown[i]) {
-                GameOver();
-                System.out.println("COLLISION");
-            }
-            */
             
             //Calculate 2 Points at the UpBarrier to calculate the collision
             int distanceXUpFirstPoint = ((xposBird + 50) - xposBarrier[i]);
@@ -236,9 +222,7 @@ public class GameField extends JPanel {
             scaledSpaceShipIconLeft.paintIcon(null, g, xposBackground[i], 0);
             xposBackground[i] --;
 
-            System.out.println(xposBackground[i] + gui.PANEL_SIZE_X + "xpos");
             if (xposBackground[i] + gui.PANEL_SIZE_X + 1 == gui.PANEL_SIZE_X) {
-                System.out.println("DETECTED");
                 CountBackgrounds++;
                 xposBackground[CountBackgrounds] = gui.PANEL_SIZE_X;
             }
@@ -248,7 +232,11 @@ public class GameField extends JPanel {
     public void GameOver() {
         Main.GameActive = false;
         this.add(gui.GameOverLabel);
+        gui.HighScoreLabel.setVisible(false);
         gui.GameOverLabel.setVisible(true);
+        if (Integer.parseInt(gui.HighScoreTextBackup) < ActiveHighScoreCount) {
+            new Files();
+        }
     }
 
 }

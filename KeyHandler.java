@@ -15,7 +15,6 @@ public class KeyHandler implements KeyListener {
                 
                 case KeyEvent.VK_SPACE:
                 GameField.Jumped = false;
-                //GameField.BirdAngle = -20;
                 GameField.CountFalling = 0;
                 GameField.yposFalling = 0;
                 GameField.BirdAngle = 0;
